@@ -21,7 +21,7 @@ Remove AI writing patterns from text, making it sound more natural and human. Fo
 
 ### Skill: `writing-humanizer`
 
-A comprehensive skill that detects and rewrites 24 categories of AI writing patterns:
+A comprehensive skill that detects and rewrites 31 categories of AI writing patterns:
 
 **Content Patterns (1-6)**
 - Significance inflation, notability name-dropping, superficial analysis
@@ -38,6 +38,11 @@ A comprehensive skill that detects and rewrites 24 categories of AI writing patt
 **Communication Patterns (18-24)**
 - Chatbot artifacts, knowledge-cutoff disclaimers, sycophantic tone
 - Filler phrases, excessive hedging, generic conclusions, throat-clearing openers
+
+**Structure & Rhetoric Patterns (25-31)** — Chinese-essay-specific
+- Outline-as-essay, bold 4-char-label lists, significance-stamping endings
+- In-sentence keyword bolding, meta-discourse/roadmap announcements, sublimating moralizing conclusions
+- Reifying an abstract process into "a line/route" and pointing back to it repeatedly
 
 ### Key Features
 
@@ -92,7 +97,7 @@ MIT
 
 ### Skill：`writing-humanizer`
 
-一個完整的 skill，可偵測並改寫 24 類 AI 寫作模式：
+一個完整的 skill，可偵測並改寫 31 類 AI 寫作模式：
 
 **內容模式（1-6）**
 - 誇大象徵意義、過度強調知名度、膚淺分析
@@ -109,6 +114,11 @@ MIT
 **交流模式（18-24）**
 - 聊天機器人痕跡、知識截止免責聲明、諂媚語氣
 - 填充短語、過度限定、通用積極結論、開場白贅詞
+
+**結構與修辭模式（25-31）** — 中文論說文專屬
+- 大綱骨架代替文章、四字標籤排比清單、意義蓋章式收尾
+- 句內關鍵詞粗體、元論述導讀宣告、升華訓誡式結尾
+- 抽象事物具象成「一條線／路線」並反覆回指
 
 ### 主要特色
 
