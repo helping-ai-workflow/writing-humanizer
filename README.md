@@ -1,21 +1,56 @@
-# Writing Humanizer Plugin for Claude Code
+# Writing Humanizer
 
 Remove AI writing patterns from text, making it sound more natural and human. Focused on Traditional Chinese (Taiwan).
 
+One skill, seven hosts. The same `skills/writing-humanizer` skill runs in Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, and pi — only the per-host manifest differs.
+
 ## Installation
 
-### Via Marketplace (Recommended)
+### Claude Code
+
+Via marketplace (recommended):
 
 ```bash
 /plugin marketplace add shyuan/shyuan-marketplace
 /plugin install writing-humanizer@shyuan-marketplace
 ```
 
-### Direct Install
+Or direct:
 
 ```bash
 /plugin install shyuan/writing-humanizer
 ```
+
+### OpenCode
+
+Add to the `plugin` array in your `opencode.json` (global or project-level), then restart OpenCode:
+
+```json
+{
+  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git"]
+}
+```
+
+See [`.opencode/INSTALL.md`](.opencode/INSTALL.md) for version pinning and troubleshooting.
+
+### Codex / Cursor / Antigravity CLI / Kimi CLI
+
+Each of these hosts reads its own manifest bundled in this repo. Install with the host's own plugin/marketplace command pointing at this repo, or clone it into the host's plugins location and let the host discover the manifest:
+
+```bash
+git clone https://github.com/shyuan/writing-humanizer.git
+```
+
+| Host | Manifest the host reads |
+|------|--------------------------|
+| OpenAI Codex | `.codex-plugin/plugin.json` |
+| Cursor | `.cursor-plugin/plugin.json` |
+| Google Antigravity CLI | `plugin.json` (repo root) |
+| Kimi CLI | `.kimi-plugin/plugin.json` |
+
+### pi
+
+pi loads the skill through the `"pi"` field in `package.json` (extension at `.pi/extensions/writing-humanizer.ts`). Install the package into your pi setup so pi discovers the bundled `skills/`.
 
 ## What You Get
 
@@ -53,13 +88,13 @@ A comprehensive skill that detects and rewrites 31 categories of AI writing patt
 
 ## Quick Start
 
-After installation, try these in Claude Code:
+After installation, invoke the skill (slash-command syntax varies by host — this is the Claude Code form):
 
 ```
 /writing-humanizer:writing-humanizer <paste your text here>
 ```
 
-Or simply ask Claude to humanize text — the skill will be available in context.
+Or simply ask your agent to humanize text — the skill is discovered from its description and loaded on demand.
 
 ## References
 
@@ -74,24 +109,59 @@ MIT
 
 ---
 
-# Writing Humanizer Plugin for Claude Code（中文說明）
+# Writing Humanizer（中文說明）
 
 去除文章中的 AI 寫作痕跡，使文字更自然、更有人味。以台灣正體中文為主。
 
+一份 skill，七個 host。同一個 `skills/writing-humanizer` skill 可在 Claude Code、OpenAI Codex、Cursor、Google Antigravity CLI、OpenCode、Kimi CLI、pi 上運作——差別只在各 host 的 manifest。
+
 ## 安裝方式
 
-### 透過 Marketplace 安裝（推薦）
+### Claude Code
+
+透過 Marketplace（推薦）：
 
 ```bash
 /plugin marketplace add shyuan/shyuan-marketplace
 /plugin install writing-humanizer@shyuan-marketplace
 ```
 
-### 直接安裝
+或直接安裝：
 
 ```bash
 /plugin install shyuan/writing-humanizer
 ```
+
+### OpenCode
+
+在你的 `opencode.json`（全域或專案層級）的 `plugin` 陣列加入以下設定，然後重啟 OpenCode：
+
+```json
+{
+  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git"]
+}
+```
+
+版本鎖定與排錯請見 [`.opencode/INSTALL.md`](.opencode/INSTALL.md)。
+
+### Codex / Cursor / Antigravity CLI / Kimi CLI
+
+這幾個 host 各自讀取 repo 內附的 manifest。用該 host 自己的 plugin／marketplace 安裝指令指向本 repo，或將 repo clone 到該 host 的 plugins 位置，讓它探索對應 manifest：
+
+```bash
+git clone https://github.com/shyuan/writing-humanizer.git
+```
+
+| Host | 讀取的 manifest |
+|------|------|
+| OpenAI Codex | `.codex-plugin/plugin.json` |
+| Cursor | `.cursor-plugin/plugin.json` |
+| Google Antigravity CLI | `plugin.json`（repo 根目錄） |
+| Kimi CLI | `.kimi-plugin/plugin.json` |
+
+### pi
+
+pi 透過 `package.json` 的 `"pi"` 欄位載入 skill（extension 在 `.pi/extensions/writing-humanizer.ts`）。將此套件安裝進你的 pi 環境，pi 便會探索到內附的 `skills/`。
 
 ## 安裝後你會得到
 
@@ -129,13 +199,13 @@ MIT
 
 ## 快速入門
 
-安裝完成後，在 Claude Code 中試試：
+安裝完成後，呼叫 skill（slash 指令語法因 host 而異，以下為 Claude Code 形式）：
 
 ```
 /writing-humanizer:writing-humanizer <貼上你要處理的文字>
 ```
 
-或直接請 Claude 幫你去除 AI 痕跡——skill 會自動在上下文中生效。
+或直接請你的 agent 幫你去除 AI 痕跡——skill 會依其 description 被探索並按需載入。
 
 ## 參考資料
 
