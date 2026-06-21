@@ -6,5 +6,9 @@
   "main": ".opencode/plugins/writing-humanizer.js",
   "license": "MIT",
   "repository": "https://github.com/shyuan/writing-humanizer",
-  "keywords": ["humanizer", "ai-detection", "writing", "zh-tw", "traditional-chinese"]
+  "keywords": ["humanizer", "ai-detection", "writing", "zh-tw", "traditional-chinese"],
+  "pi": {
+    "extensions": ["./.pi/extensions/writing-humanizer.ts"],
+    "skills": ["./skills"]
+  }
 }
