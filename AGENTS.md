@@ -4,12 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A Claude Code **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that Claude Code loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
+A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that the host (Claude Code or OpenAI Codex) loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
+
+The same `skills/` directory and `SKILL.md` format are shared by both hosts; only the manifest differs per host.
 
 ## Repository layout
 
-- `.claude-plugin/plugin.json` — plugin manifest. **Bump `version` here** when publishing changes (semver). The repo is distributed via the `shyuan-marketplace`.
-- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub). Its YAML frontmatter (`name`, `description`, `user-invocable`, `argument-hint`, `allowed-tools`) controls when and how the skill triggers.
+- `.claude-plugin/plugin.json` — Claude Code plugin manifest. Distributed via the `shyuan-marketplace`.
+- `.codex-plugin/plugin.json` — OpenAI Codex plugin manifest. Points at the shared skills dir via `"skills": "./skills/"`.
+- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub), used by both hosts. Its YAML frontmatter (`name`, `description`) drives triggering on both; Claude-specific keys (`user-invocable`, `argument-hint`, `allowed-tools`) are ignored by Codex.
 - `skills/writing-humanizer/references/` — spoke files loaded on demand by the hub.
 - `README.md` — bilingual (English + 中文) user-facing docs, kept in sync with the pattern catalog.
 
@@ -35,4 +38,4 @@ The spokes catalog AI patterns in **numbered categories (1–31)**, partitioned 
 
 ## Publishing changes
 
-After editing skill content: bump `.claude-plugin/plugin.json` `version`, then update `README.md` if the pattern catalog or feature list changed.
+After editing skill content: bump the `version` in **both** `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` (keep them in sync), then update `README.md` if the pattern catalog or feature list changed.
