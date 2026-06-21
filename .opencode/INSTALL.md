@@ -22,7 +22,7 @@ To pin a specific version:
 
 ```json
 {
-  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git#v1.2.0"]
+  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git#v1.3.0"]
 }
 ```
 
