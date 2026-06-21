@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, or Google Antigravity CLI) loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
+A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, or OpenCode) loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
 
-The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI); only the manifest differs per host.
+The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode); only the manifest/loader differs per host.
 
 ## Repository layout
 
@@ -14,7 +14,8 @@ The same `skills/` directory and `SKILL.md` format are shared by all hosts (Clau
 - `.codex-plugin/plugin.json` — OpenAI Codex plugin manifest. Points at the shared skills dir via `"skills": "./skills/"`.
 - `.cursor-plugin/plugin.json` — Cursor plugin manifest (Cursor 2.5+). Points at the shared skills dir via `"skills": "skills/"`.
 - `plugin.json` (repo root) — Google Antigravity CLI plugin manifest. Antigravity expects this at the plugin root (not in a namespaced dir); `"skills"` is an array pointing at each skill dir (`["skills/writing-humanizer"]`).
-- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub), used by all four hosts. Its YAML frontmatter (`name`, `description`) drives triggering on all of them; Claude-specific keys (`user-invocable`, `argument-hint`, `allowed-tools`) are ignored by Codex, Cursor, and Antigravity.
+- `package.json` + `.opencode/plugins/writing-humanizer.js` + `.opencode/INSTALL.md` — OpenCode loader. OpenCode does **not** read the top-level `skills/` dir; instead it installs this repo as a JS plugin (via the `plugin` array in the user's `opencode.json`, resolved through `package.json`'s `"main"`), and the plugin's `config` hook injects `skills/` into `config.skills.paths` so the skill is auto-discovered — no symlinks. See `.opencode/INSTALL.md`.
+- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub), used by all five hosts. Its YAML frontmatter (`name`, `description`) drives triggering on all of them; Claude-specific keys (`user-invocable`, `argument-hint`, `allowed-tools`) are ignored by the others.
 - `skills/writing-humanizer/references/` — spoke files loaded on demand by the hub.
 - `README.md` — bilingual (English + 中文) user-facing docs, kept in sync with the pattern catalog.
 
@@ -40,4 +41,4 @@ The spokes catalog AI patterns in **numbered categories (1–31)**, partitioned 
 
 ## Publishing changes
 
-After editing skill content: bump the `version` in **all four** manifests — `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, and `plugin.json` (keep them in sync) — then update `README.md` if the pattern catalog or feature list changed.
+After editing skill content: bump the `version` in **all five** manifests — `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `plugin.json`, and `package.json` (keep them in sync) — then update `README.md` if the pattern catalog or feature list changed.
