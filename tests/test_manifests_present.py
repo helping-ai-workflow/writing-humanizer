@@ -46,14 +46,47 @@ def test_marketplace_is_self_hosted_single_plugin():
 
 
 def test_every_host_manifest_wires_the_shared_skills_dir():
-    assert _load(".codex-plugin/plugin.json")["skills"] == "./skills/"
-    assert _load(".cursor-plugin/plugin.json")["skills"] == "skills/"
-    assert _load(".kimi-plugin/plugin.json")["skills"] == "./skills/"
-    assert _load("plugin.json")["skills"] == ["skills/writing-humanizer"]
+    """不只比對字串——路徑本身也要真的存在，否則刪掉目標檔案這條測試也會維持綠燈。"""
+    codex_skills = _load(".codex-plugin/plugin.json")["skills"]
+    assert codex_skills == "./skills/"
+    assert (ROOT / "skills").is_dir(), (
+        f".codex-plugin/plugin.json 的 skills 欄位指向 {codex_skills!r}，"
+        "但 skills/ 目錄不存在")
+
+    cursor_skills = _load(".cursor-plugin/plugin.json")["skills"]
+    assert cursor_skills == "skills/"
+    assert (ROOT / "skills").is_dir(), (
+        f".cursor-plugin/plugin.json 的 skills 欄位指向 {cursor_skills!r}，"
+        "但 skills/ 目錄不存在")
+
+    kimi_skills = _load(".kimi-plugin/plugin.json")["skills"]
+    assert kimi_skills == "./skills/"
+    assert (ROOT / "skills").is_dir(), (
+        f".kimi-plugin/plugin.json 的 skills 欄位指向 {kimi_skills!r}，"
+        "但 skills/ 目錄不存在")
+
+    root_skills = _load("plugin.json")["skills"]
+    assert root_skills == ["skills/writing-humanizer"]
+    assert (ROOT / "skills/writing-humanizer").is_dir(), (
+        f"plugin.json 的 skills 欄位指向 {root_skills!r}，"
+        "但 skills/writing-humanizer/ 目錄不存在")
+
     pkg = _load("package.json")
     assert pkg["main"] == ".opencode/plugins/writing-humanizer.js"
-    assert pkg["pi"]["extensions"] == ["./.pi/extensions/writing-humanizer.ts"]
-    assert pkg["pi"]["skills"] == ["./skills"]
+    assert (ROOT / pkg["main"]).is_file(), (
+        f"package.json 的 main 欄位指向 {pkg['main']!r}，但檔案不存在"
+        "（OpenCode 靠這個檔案載入 plugin）")
+
+    pi_extensions = pkg["pi"]["extensions"]
+    assert pi_extensions == ["./.pi/extensions/writing-humanizer.ts"]
+    assert (ROOT / ".pi/extensions/writing-humanizer.ts").is_file(), (
+        f"package.json 的 pi.extensions 欄位指向 {pi_extensions!r}，但檔案不存在"
+        "（pi 靠這個 extension 註冊 skills 目錄）")
+
+    pi_skills = pkg["pi"]["skills"]
+    assert pi_skills == ["./skills"]
+    assert (ROOT / "skills").is_dir(), (
+        f"package.json 的 pi.skills 欄位指向 {pi_skills!r}，但 skills/ 目錄不存在")
 
 
 def test_gemini_extension_points_at_an_existing_context_file():

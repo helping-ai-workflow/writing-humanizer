@@ -12,15 +12,22 @@ One skill, eight hosts. The same `skills/writing-humanizer` skill runs in Claude
 
 ```bash
 claude plugin marketplace add git@github.com:helping-ai-workflow/writing-humanizer.git
-claude plugin install writing-humanizer
+claude plugin install writing-humanizer@writing-humanizer
 ```
 
 Reopen a Claude Code session and the skill is available.
 
+> **Already have this from the upstream marketplace?** If you previously ran
+> `claude plugin marketplace add shyuan/shyuan-marketplace`, that marketplace still
+> serves a plugin of the *same name* (`writing-humanizer`) — upstream's, not this
+> fork's. Remove it (`claude plugin marketplace remove shyuan-marketplace`) or keep
+> using the `@writing-humanizer` marketplace-qualified form above so `claude plugin
+> install` never has to guess which one you mean.
+
 To update:
 
 ```bash
-claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer
+claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer@writing-humanizer
 ```
 
 <details>
@@ -117,15 +124,21 @@ MIT
 
 ```bash
 claude plugin marketplace add git@github.com:helping-ai-workflow/writing-humanizer.git
-claude plugin install writing-humanizer
+claude plugin install writing-humanizer@writing-humanizer
 ```
 
 裝好後重開一個 Claude Code 對話即可使用。
 
+> **先前已經從上游 marketplace 裝過？** 如果你曾經跑過
+> `claude plugin marketplace add shyuan/shyuan-marketplace`，那個 marketplace 現在仍在
+> 提供**同名**的 `writing-humanizer` plugin——是上游的版本，不是這個 fork。請移除它
+> （`claude plugin marketplace remove shyuan-marketplace`），或是照上面的寫法一律用
+> `@writing-humanizer` 這個 marketplace 限定形式，讓 `claude plugin install` 不必用猜的。
+
 更新：
 
 ```bash
-claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer
+claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer@writing-humanizer
 ```
 
 <details>

@@ -13,6 +13,7 @@ REFS = ROOT / "skills" / "writing-humanizer" / "references"
 SKILL = ROOT / "skills" / "writing-humanizer" / "SKILL.md"
 README = ROOT / "README.md"
 KIMI = ROOT / ".kimi-plugin" / "plugin.json"
+GEMINI = ROOT / "GEMINI.md"
 
 # spoke 檔頭：# 內容模式（模式 1-6）
 _SPOKE_HEADER = re.compile(r"^#\s.*（模式\s*(\d+)-(\d+)）", re.MULTILINE)
@@ -88,11 +89,13 @@ def test_every_declared_total_equals_the_highest_pattern_number():
     highest = max(n for _, actual in _spokes().values() for n in actual)
     readme = README.read_text(encoding="utf-8")
     kimi = json.loads(KIMI.read_text(encoding="utf-8"))["interface"]["longDescription"]
+    gemini = GEMINI.read_text(encoding="utf-8")
 
     claims = {
         "README 英文段": re.search(r"(\d+) categories of AI writing patterns", readme),
         "README 中文段": re.search(r"(\d+) 類 AI 寫作模式", readme),
         "kimi longDescription": re.search(r"(\d+) 類 AI 生成文本的破綻", kimi),
+        "GEMINI.md": re.search(r"共\s*(\d+)\s*類模式", gemini),
     }
     for where, m in claims.items():
         assert m, f"{where} 找不到模式總數的宣告句"
