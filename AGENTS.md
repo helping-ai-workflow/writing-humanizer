@@ -52,6 +52,6 @@ After editing skill content:
 
 1. Add the new `## X.Y.Z` entry at the top of `CHANGELOG.md`.
 2. Run `python scripts/bump_version.py X.Y.Z`. It writes all eight manifests and advances `.version-bump.json`'s `previous` / `current` / `next`, then re-audits.
-3. Run `python -m pytest -q` — a manual edit that misses a manifest fails this suite instead of shipping a split version.
+3. Run `python -m pytest -q` — a manual edit that misses a manifest fails this suite instead of shipping a split version. CI automatically enforces these same gates on every push to main and on every pull request, catching drift before merge.
 
 Never hand-edit a version in a single manifest — that is the exact drift the script exists to prevent.
