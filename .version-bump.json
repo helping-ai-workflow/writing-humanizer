@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "path": ".claude-plugin/plugin.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": ".claude-plugin/marketplace.json",
+      "type": "json",
+      "key": "plugins.0.version"
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": ".cursor-plugin/plugin.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": ".kimi-plugin/plugin.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": "plugin.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": "package.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": "gemini-extension.json",
+      "type": "json",
+      "key": "version"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "type": "changelog",
+      "heading": "## {version}"
+    }
+  ],
+  "audit": {
+    "exclude": [
+      "CHANGELOG.md",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "README.md",
+      ".opencode/INSTALL.md",
+      "skills/",
+      "tests/",
+      "scripts/",
+      "docs/",
+      ".version-bump.json"
+    ]
+  },
+  "current": "1.4.0",
+  "next": "1.5.0",
+  "previous": "1.3.0"
+}
