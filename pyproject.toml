@@ -1,0 +1,6 @@
+# 本 repo 是純 Markdown plugin，沒有可安裝的 Python 套件。
+# 這個檔案只承載 pytest 設定；刻意不寫 [project]，所以它不帶版本欄位，
+# 也因此不列入 .version-bump.json 的 files[]。
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
