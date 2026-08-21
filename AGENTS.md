@@ -33,7 +33,7 @@ The same `skills/` directory and `SKILL.md` format are shared by all hosts (Clau
 The spokes catalog AI patterns in **numbered categories (1–31)**, partitioned by file. The numbering is contiguous across files and must stay consistent with both `SKILL.md`'s reference section and `README.md`:
 
 - `content-patterns.md` — patterns 1–6 (significance inflation, promotional language, vague attribution…)
-- `language-patterns.md` — patterns 7–12 (AI vocabulary, copula avoidance, negative parallelism, rule of three…)
+- `language-patterns.md` — patterns 7–12 (AI vocabulary, copula avoidance, negative parallelism, rule of three and hollow parallelism…)
 - `style-patterns.md` — patterns 13–17 (em dash overuse, boldface, emoji, quotation marks…)
 - `communication-patterns.md` — patterns 18–24 (filler phrases, hedging, sycophancy, throat-clearing…)
 - `structure-rhetoric-patterns.md` — patterns 25–31, Chinese-essay-specific (outline-as-essay, 4-char-label lists, significance-stamping endings, sublimating/moralizing conclusions…)
