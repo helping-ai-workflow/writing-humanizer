@@ -105,9 +105,9 @@ MIT
 
 # Writing Humanizer（中文說明）
 
-> Fork 自 [shyuan/writing-humanizer](https://github.com/shyuan/writing-humanizer)，由 [helping-ai-workflow](https://github.com/helping-ai-workflow) 維護。
-
 去除文章中的 AI 寫作痕跡，使文字更自然、更有人味。以台灣正體中文為主。
+
+> Fork 自 [shyuan/writing-humanizer](https://github.com/shyuan/writing-humanizer)，由 [helping-ai-workflow](https://github.com/helping-ai-workflow) 維護。
 
 一份 skill，八個 host。同一個 `skills/writing-humanizer` skill 可在 Claude Code、OpenAI Codex、Cursor、Google Antigravity CLI、OpenCode、Kimi CLI、pi、Gemini CLI 上運作——差別只在各 host 的 manifest。
 
