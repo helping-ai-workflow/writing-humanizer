@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, or pi) loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
+A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi, or Gemini CLI) loads as a skill. There is a pytest suite, but it tests no runtime behaviour (there is none) — it mechanically gates the things that would otherwise silently drift: that every manifest is present and parseable, that the version agrees across all eight manifests plus the CHANGELOG top heading, and that the pattern numbering stays aligned across the spoke files, `SKILL.md`, and both language sections of `README.md`. The skill's actual behaviour is still validated by reading it and exercising it, not by a toolchain.
 
-The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi); only the manifest/loader differs per host.
+The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi, Gemini CLI); only the manifest/loader differs per host.
 
 ## Repository layout
 
