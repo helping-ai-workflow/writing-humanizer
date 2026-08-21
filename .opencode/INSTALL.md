@@ -10,7 +10,7 @@ Add the plugin to the `plugin` array in your `opencode.json` (global or project-
 
 ```json
 {
-  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git"]
+  "plugin": ["writing-humanizer@git+https://github.com/helping-ai-workflow/writing-humanizer.git"]
 }
 ```
 
@@ -18,16 +18,19 @@ Restart OpenCode. The plugin installs through OpenCode's plugin manager and
 registers the shared `skills/` directory, so the `writing-humanizer` skill is
 discovered without any symlinks or manual `skills.paths` edits.
 
-To pin a specific version:
+To pin a specific version, append the tag you want:
 
 ```json
 {
-  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git#v1.3.0"]
+  "plugin": ["writing-humanizer@git+https://github.com/helping-ai-workflow/writing-humanizer.git#v<tag>"]
 }
 ```
 
+Replace `<tag>` with an actual release tag — see the repo's [tags page](https://github.com/helping-ai-workflow/writing-humanizer/tags) for what is available.
+
 OpenCode uses its own plugin install. If you also use Claude Code, Codex,
-Cursor, or Antigravity, install the plugin separately for each one.
+Cursor, Antigravity, Kimi CLI, Gemini CLI, or pi, install the plugin
+separately for each one.
 
 ## Usage
 

@@ -1,0 +1,13 @@
+# Python（本 repo 沒有 runtime code，但 tests/ 用 pytest）
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# subagent-driven-development 的執行 ledger 與 review package
+.superpowers/
+
+# 本機工作狀態：brainstorming spec 與 implementation plan，不進版控
+docs/superpowers/
+
+# 原生 worktree 工具的落點
+.claude/worktrees/

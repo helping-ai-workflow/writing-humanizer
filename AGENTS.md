@@ -4,21 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, test, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, or pi) loads as a skill. Changes are validated by reading them and by exercising the skill, not by a toolchain.
+A cross-tool **plugin** (not an application). It ships a single user-invocable skill, `writing-humanizer`, that detects and rewrites AI-generated writing patterns, focused on Traditional Chinese (Taiwan). There is no build, lint, or runtime — the "code" is Markdown prompt content that the host (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi, or Gemini CLI) loads as a skill. There is a pytest suite, but it tests no runtime behaviour (there is none) — it mechanically gates the things that would otherwise silently drift: that every manifest is present and parseable, that the version agrees across all eight manifests plus the CHANGELOG top heading, and that the pattern numbering stays aligned across the spoke files, `SKILL.md`, and both language sections of `README.md`. The skill's actual behaviour is still validated by reading it and exercising it, not by a toolchain.
 
-The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi); only the manifest/loader differs per host.
+The same `skills/` directory and `SKILL.md` format are shared by all hosts (Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi, Gemini CLI); only the manifest/loader differs per host.
 
 ## Repository layout
 
-- `.claude-plugin/plugin.json` — Claude Code plugin manifest. Distributed via the `shyuan-marketplace`.
+- `.claude-plugin/plugin.json` — Claude Code plugin manifest.
+- `.claude-plugin/marketplace.json` — self-hosted single-plugin marketplace (`"source": "./"`). This repo IS its own marketplace; users add it directly with `claude plugin marketplace add`. The version lives here a second time, at `plugins[0].version` — it must match `plugin.json`.
 - `.codex-plugin/plugin.json` — OpenAI Codex plugin manifest. Points at the shared skills dir via `"skills": "./skills/"`.
 - `.cursor-plugin/plugin.json` — Cursor plugin manifest (Cursor 2.5+). Points at the shared skills dir via `"skills": "skills/"`.
 - `plugin.json` (repo root) — Google Antigravity CLI plugin manifest. Antigravity expects this at the plugin root (not in a namespaced dir); `"skills"` is an array pointing at each skill dir (`["skills/writing-humanizer"]`).
 - `package.json` + `.opencode/plugins/writing-humanizer.js` + `.opencode/INSTALL.md` — OpenCode loader. OpenCode does **not** read the top-level `skills/` dir; instead it installs this repo as a JS plugin (via the `plugin` array in the user's `opencode.json`, resolved through `package.json`'s `"main"`), and the plugin's `config` hook injects `skills/` into `config.skills.paths` so the skill is auto-discovered — no symlinks. See `.opencode/INSTALL.md`.
 - `.kimi-plugin/plugin.json` — Kimi CLI plugin manifest. Points at the shared skills dir via `"skills": "./skills/"`, plus a Kimi-specific `interface` block for display metadata. (We omit Kimi's optional `sessionStart` so the skill loads on demand, and `skillInstructions` since the skill references no host-specific tools.)
 - `.pi/extensions/writing-humanizer.ts` + the `"pi"` field in `package.json` — pi loader. Like OpenCode, pi does not read the top-level `skills/` dir on its own; the TS extension's `resources_discover` hook returns `skillPaths: [skillsDir]` to register the shared `skills/` dir. `package.json`'s `"pi"` field lists the extension and skills paths.
-- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub), used by all seven hosts. Its YAML frontmatter (`name`, `description`) drives triggering on all of them; Claude-specific keys (`user-invocable`, `argument-hint`, `allowed-tools`) are ignored by the others.
+- `skills/writing-humanizer/SKILL.md` — the skill entry point (hub), used by all eight hosts. Its YAML frontmatter (`name`, `description`) drives triggering on all of them; Claude-specific keys (`user-invocable`, `argument-hint`, `allowed-tools`) are ignored by the others.
 - `skills/writing-humanizer/references/` — spoke files loaded on demand by the hub.
+- `gemini-extension.json` + `GEMINI.md` — Gemini CLI extension manifest and its context file. `GEMINI.md` deliberately does NOT `@`-import `SKILL.md`: this is an on-demand skill, not a session-wide contract, so inlining it would cost every Gemini session a full SKILL.md of context.
+- `.version-bump.json` + `scripts/bump_version.py` — version sync across all eight manifests plus the CHANGELOG top heading. `--check` reports drift; `--audit` greps the tracked repo for an undeclared file carrying the version (a manifest someone forgot to declare).
+- `CHANGELOG.md` — the narrative of what changed per version. Its top `## X.Y.Z` heading is load-bearing: `bump_version.py --check` and `tests/test_version_consistency.py` both read it as the source of truth.
+- `tests/` — pytest ship-gates. No runtime code is tested here (there is none); the tests lock manifest completeness, version consistency, and the pattern-numbering invariant that this file documents below.
 - `README.md` — bilingual (English + 中文) user-facing docs, kept in sync with the pattern catalog.
 
 ## Architecture: hub-and-spoke skill
@@ -43,4 +48,10 @@ The spokes catalog AI patterns in **numbered categories (1–31)**, partitioned 
 
 ## Publishing changes
 
-After editing skill content: bump the `version` in **all six** manifests — `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `plugin.json`, `package.json`, and `.kimi-plugin/plugin.json` (keep them in sync) — then update `README.md` if the pattern catalog or feature list changed.
+After editing skill content:
+
+1. Add the new `## X.Y.Z` entry at the top of `CHANGELOG.md`.
+2. Run `python scripts/bump_version.py X.Y.Z`. It writes all eight manifests and advances `.version-bump.json`'s `previous` / `current` / `next`, then re-audits.
+3. Run `python -m pytest -q` — a manual edit that misses a manifest fails this suite instead of shipping a split version. CI automatically enforces these same gates on every push to main and on every pull request, catching drift before merge.
+
+Never hand-edit a version in a single manifest — that is the exact drift the script exists to prevent.

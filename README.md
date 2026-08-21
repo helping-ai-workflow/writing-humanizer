@@ -2,55 +2,56 @@
 
 Remove AI writing patterns from text, making it sound more natural and human. Focused on Traditional Chinese (Taiwan).
 
-One skill, seven hosts. The same `skills/writing-humanizer` skill runs in Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, and pi — only the per-host manifest differs.
+> Forked from [shyuan/writing-humanizer](https://github.com/shyuan/writing-humanizer), maintained by [helping-ai-workflow](https://github.com/helping-ai-workflow).
+
+One skill, eight hosts. The same `skills/writing-humanizer` skill runs in Claude Code, OpenAI Codex, Cursor, Google Antigravity CLI, OpenCode, Kimi CLI, pi, and Gemini CLI — only the per-host manifest differs.
 
 ## Installation
 
 ### Claude Code
 
-Via marketplace (recommended):
+```bash
+claude plugin marketplace add git@github.com:helping-ai-workflow/writing-humanizer.git
+claude plugin install writing-humanizer@writing-humanizer
+```
+
+Reopen a Claude Code session and the skill is available.
+
+> **Already have this from the upstream marketplace?** If you previously ran
+> `claude plugin marketplace add shyuan/shyuan-marketplace`, that marketplace still
+> serves a plugin of the *same name* (`writing-humanizer`) — upstream's, not this
+> fork's. Remove it (`claude plugin marketplace remove shyuan-marketplace`) or keep
+> using the `@writing-humanizer` marketplace-qualified form above so `claude plugin
+> install` never has to guess which one you mean.
+
+To update:
 
 ```bash
-/plugin marketplace add shyuan/shyuan-marketplace
-/plugin install writing-humanizer@shyuan-marketplace
+claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer@writing-humanizer
 ```
 
-Or direct:
+<details>
+<summary>Other AI agents (Cursor / Codex / Kimi / Gemini / Antigravity / OpenCode / pi)</summary>
 
-```bash
-/plugin install shyuan/writing-humanizer
-```
-
-### OpenCode
-
-Add to the `plugin` array in your `opencode.json` (global or project-level), then restart OpenCode:
-
-```json
-{
-  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git"]
-}
-```
-
-See [`.opencode/INSTALL.md`](.opencode/INSTALL.md) for version pinning and troubleshooting.
-
-### Codex / Cursor / Antigravity CLI / Kimi CLI
-
-Each of these hosts reads its own manifest bundled in this repo. Install with the host's own plugin/marketplace command pointing at this repo, or clone it into the host's plugins location and let the host discover the manifest:
-
-```bash
-git clone https://github.com/shyuan/writing-humanizer.git
-```
+| Agent | Install |
+|---|---|
+| Cursor / Codex / Kimi | Add `git@github.com:helping-ai-workflow/writing-humanizer.git` through the host's own plugin marketplace, then install `writing-humanizer` |
+| Gemini CLI | `gemini extensions install https://github.com/helping-ai-workflow/writing-humanizer` |
+| Antigravity CLI | Reads `plugin.json` at the repo root — clone the repo into the host's plugins location |
+| OpenCode | Add `"writing-humanizer@git+https://github.com/helping-ai-workflow/writing-humanizer.git"` to the `plugin` array in `opencode.json` (see [`.opencode/INSTALL.md`](.opencode/INSTALL.md)) |
+| pi | `pi install git:github.com/helping-ai-workflow/writing-humanizer` |
 
 | Host | Manifest the host reads |
 |------|--------------------------|
+| Claude Code | `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` |
 | OpenAI Codex | `.codex-plugin/plugin.json` |
 | Cursor | `.cursor-plugin/plugin.json` |
 | Google Antigravity CLI | `plugin.json` (repo root) |
 | Kimi CLI | `.kimi-plugin/plugin.json` |
+| Gemini CLI | `gemini-extension.json` + `GEMINI.md` |
+| OpenCode / pi | `package.json` |
 
-### pi
-
-pi loads the skill through the `"pi"` field in `package.json` (extension at `.pi/extensions/writing-humanizer.ts`). Install the package into your pi setup so pi discovers the bundled `skills/`.
+</details>
 
 ## What You Get
 
@@ -113,55 +114,55 @@ MIT
 
 去除文章中的 AI 寫作痕跡，使文字更自然、更有人味。以台灣正體中文為主。
 
-一份 skill，七個 host。同一個 `skills/writing-humanizer` skill 可在 Claude Code、OpenAI Codex、Cursor、Google Antigravity CLI、OpenCode、Kimi CLI、pi 上運作——差別只在各 host 的 manifest。
+> Fork 自 [shyuan/writing-humanizer](https://github.com/shyuan/writing-humanizer)，由 [helping-ai-workflow](https://github.com/helping-ai-workflow) 維護。
+
+一份 skill，八個 host。同一個 `skills/writing-humanizer` skill 可在 Claude Code、OpenAI Codex、Cursor、Google Antigravity CLI、OpenCode、Kimi CLI、pi、Gemini CLI 上運作——差別只在各 host 的 manifest。
 
 ## 安裝方式
 
 ### Claude Code
 
-透過 Marketplace（推薦）：
+```bash
+claude plugin marketplace add git@github.com:helping-ai-workflow/writing-humanizer.git
+claude plugin install writing-humanizer@writing-humanizer
+```
+
+裝好後重開一個 Claude Code 對話即可使用。
+
+> **先前已經從上游 marketplace 裝過？** 如果你曾經跑過
+> `claude plugin marketplace add shyuan/shyuan-marketplace`，那個 marketplace 現在仍在
+> 提供**同名**的 `writing-humanizer` plugin——是上游的版本，不是這個 fork。請移除它
+> （`claude plugin marketplace remove shyuan-marketplace`），或是照上面的寫法一律用
+> `@writing-humanizer` 這個 marketplace 限定形式，讓 `claude plugin install` 不必用猜的。
+
+更新：
 
 ```bash
-/plugin marketplace add shyuan/shyuan-marketplace
-/plugin install writing-humanizer@shyuan-marketplace
+claude plugin marketplace update writing-humanizer && claude plugin install writing-humanizer@writing-humanizer
 ```
 
-或直接安裝：
+<details>
+<summary>其他 AI agent 安裝（Cursor / Codex / Kimi / Gemini / Antigravity / OpenCode / pi）</summary>
 
-```bash
-/plugin install shyuan/writing-humanizer
-```
+| Agent | 安裝 |
+|---|---|
+| Cursor / Codex / Kimi | 用各自的 plugin marketplace 加 `git@github.com:helping-ai-workflow/writing-humanizer.git`，再 install `writing-humanizer` |
+| Gemini CLI | `gemini extensions install https://github.com/helping-ai-workflow/writing-humanizer` |
+| Antigravity CLI | 讀 repo 根的 `plugin.json`——把 repo clone 進該 host 的 plugin 目錄 |
+| OpenCode | `opencode.json` 的 `plugin` 陣列加 `"writing-humanizer@git+https://github.com/helping-ai-workflow/writing-humanizer.git"`（見 [`.opencode/INSTALL.md`](.opencode/INSTALL.md)） |
+| pi | `pi install git:github.com/helping-ai-workflow/writing-humanizer` |
 
-### OpenCode
-
-在你的 `opencode.json`（全域或專案層級）的 `plugin` 陣列加入以下設定，然後重啟 OpenCode：
-
-```json
-{
-  "plugin": ["writing-humanizer@git+https://github.com/shyuan/writing-humanizer.git"]
-}
-```
-
-版本鎖定與排錯請見 [`.opencode/INSTALL.md`](.opencode/INSTALL.md)。
-
-### Codex / Cursor / Antigravity CLI / Kimi CLI
-
-這幾個 host 各自讀取 repo 內附的 manifest。用該 host 自己的 plugin／marketplace 安裝指令指向本 repo，或將 repo clone 到該 host 的 plugins 位置，讓它探索對應 manifest：
-
-```bash
-git clone https://github.com/shyuan/writing-humanizer.git
-```
-
-| Host | 讀取的 manifest |
-|------|------|
+| Host | 該 host 讀的 manifest |
+|------|--------------------------|
+| Claude Code | `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` |
 | OpenAI Codex | `.codex-plugin/plugin.json` |
 | Cursor | `.cursor-plugin/plugin.json` |
-| Google Antigravity CLI | `plugin.json`（repo 根目錄） |
+| Google Antigravity CLI | `plugin.json`（repo 根） |
 | Kimi CLI | `.kimi-plugin/plugin.json` |
+| Gemini CLI | `gemini-extension.json` + `GEMINI.md` |
+| OpenCode / pi | `package.json` |
 
-### pi
-
-pi 透過 `package.json` 的 `"pi"` 欄位載入 skill（extension 在 `.pi/extensions/writing-humanizer.ts`）。將此套件安裝進你的 pi 環境，pi 便會探索到內附的 `skills/`。
+</details>
 
 ## 安裝後你會得到
 

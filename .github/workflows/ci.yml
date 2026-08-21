@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      # 本 repo 沒有可安裝的套件，唯一的開發依賴就是 pytest。
+      # bump_version.py 只用標準函式庫。
+      - name: Install pytest
+        run: pip install pytest
+      - name: Cross-host manifest drift check
+        # --check：八份 manifest 加 CHANGELOG 頂層必須一致。
+        # --audit：追蹤檔裡出現當前版本號卻沒被宣告的檔案（漏掉的 manifest）會擋下來。
+        #          它跑 `git ls-files`，所以必須在 checkout 之後。
+        run: |
+          python scripts/bump_version.py --check
+          python scripts/bump_version.py --audit
+      - name: Run test suite
+        run: python -m pytest -q
