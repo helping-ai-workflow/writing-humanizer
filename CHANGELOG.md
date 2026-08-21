@@ -14,6 +14,7 @@
 
 ## 1.3.0
 
+- 新增 `AGENTS.md` 記錄 repo 慣例，`CLAUDE.md` 以 `@AGENTS.md` 匯入。
 - 新增 Codex、Cursor、Antigravity CLI、OpenCode、Kimi CLI、pi 六個 host 的
   manifest 與 loader，README 改寫為七個 host 的安裝說明。
 
@@ -21,12 +22,13 @@
 
 - 新增中文論說文專屬的結構與修辭模式 25-31（大綱骨架、四字標籤清單、
   意義蓋章收尾、句內粗體、元論述、升華結尾、抽象事物具象成路線）。
-- 新增 `AGENTS.md` 記錄 repo 慣例，`CLAUDE.md` 以 `@AGENTS.md` 匯入。
 
 ## 1.1.0
 
-- `SKILL.md` 重構為精簡 hub，模式細節下放至 `references/` spoke 檔。
+- 移除 repo 根重複的 `SKILL.md`；新增雙語 README 與 MIT LICENSE；`SKILL.md`
+  重構為精簡 hub，模式細節下放至 `references/` spoke 檔。
 
 ## 1.0.0
 
-- 首版：hub-and-spoke skill 架構、雙語 README、MIT LICENSE。
+- 首版：Claude Code plugin manifest 與整份 SKILL.md（當時 repo 根與
+  `skills/` 下各有一份）。
