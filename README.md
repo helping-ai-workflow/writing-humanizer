@@ -65,7 +65,7 @@ A comprehensive skill that detects and rewrites 31 categories of AI writing patt
 
 **Language Patterns (7-12)**
 - AI vocabulary overuse, copula avoidance, negative parallelisms
-- Rule of three, synonym cycling, false ranges
+- Rule of three and hollow parallelism, synonym cycling, false ranges
 
 **Style Patterns (13-17)**
 - Em dash overuse, boldface overuse, inline-header lists
@@ -176,7 +176,7 @@ claude plugin marketplace update writing-humanizer && claude plugin install writ
 
 **語言模式（7-12）**
 - AI 詞彙過度使用、繫動詞迴避、否定式排比
-- 三段式法則、同義詞循環、虛假範圍
+- 三段式法則與空洞排比、同義詞循環、虛假範圍
 
 **風格模式（13-17）**
 - 破折號過度使用、粗體過度使用、內嵌標題列表
