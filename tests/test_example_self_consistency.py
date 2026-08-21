@@ -65,6 +65,26 @@ def test_rewrite_examples_are_discovered():
     assert not empty, "這些「改寫後：」後面接不到引用區塊：" + "、".join(empty)
 
 
+_EM_DASH = re.compile(r"——")
+
+
+def test_no_rewrite_example_exceeds_the_dash_density_threshold():
+    """模式 13 的門檻是「同一段落兩個以上」。正確示範不該自己超標。
+
+    這條刻意跟 _BANNED 分開：破折號不是絕對禁令，單一個是道地中文。把它塞進
+    _BANNED 會誤殺 v1.5.0 剛解禁的合法用法，等於用測試把舊 bug 固化回來。
+    這裡要的是計數，不是存在性。
+    """
+    failures = []
+    for name, idx, text in _rewrite_blocks():
+        count = len(_EM_DASH.findall(text))
+        if count > 1:
+            failures.append(
+                f"{name} 第 {idx} 個「改寫後」有 {count} 個破折號，超過模式 13 的門檻")
+    assert not failures, (
+        "「改寫後」範例的破折號密度超過模式 13 自己的門檻：\n" + "\n".join(failures))
+
+
 def test_no_rewrite_example_violates_an_absolute_rule():
     failures = []
     for name, idx, text in _rewrite_blocks():
