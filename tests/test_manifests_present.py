@@ -18,6 +18,7 @@ _NAME_MANIFESTS = {
     ".codex-plugin/plugin.json": lambda d: d["name"],
     ".cursor-plugin/plugin.json": lambda d: d["name"],
     ".kimi-plugin/plugin.json": lambda d: d["name"],
+    "gemini-extension.json": lambda d: d["name"],
     "plugin.json": lambda d: d["name"],
     "package.json": lambda d: d["name"],
 }
@@ -53,3 +54,10 @@ def test_every_host_manifest_wires_the_shared_skills_dir():
     assert pkg["main"] == ".opencode/plugins/writing-humanizer.js"
     assert pkg["pi"]["extensions"] == ["./.pi/extensions/writing-humanizer.ts"]
     assert pkg["pi"]["skills"] == ["./skills"]
+
+
+def test_gemini_extension_points_at_an_existing_context_file():
+    gem = _load("gemini-extension.json")
+    assert gem["contextFileName"] == "GEMINI.md"
+    assert (ROOT / "GEMINI.md").is_file(), (
+        "gemini-extension.json 宣告了 GEMINI.md，但檔案不存在")
