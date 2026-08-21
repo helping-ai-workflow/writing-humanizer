@@ -5,7 +5,7 @@
   "type": "module",
   "main": ".opencode/plugins/writing-humanizer.js",
   "license": "MIT",
-  "repository": "https://github.com/shyuan/writing-humanizer",
+  "repository": "https://github.com/helping-ai-workflow/writing-humanizer",
   "keywords": [
     "humanizer",
     "ai-detection",

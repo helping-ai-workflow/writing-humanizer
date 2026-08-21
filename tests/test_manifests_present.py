@@ -61,3 +61,43 @@ def test_gemini_extension_points_at_an_existing_context_file():
     assert gem["contextFileName"] == "GEMINI.md"
     assert (ROOT / "GEMINI.md").is_file(), (
         "gemini-extension.json 宣告了 GEMINI.md，但檔案不存在")
+
+
+_FORK_URL = "https://github.com/helping-ai-workflow/writing-humanizer"
+_FORK_OWNER = "helping-ai-workflow"
+
+
+def test_no_manifest_still_points_at_the_upstream_repo():
+    """fork 自帶 marketplace 之後，manifest 再指回上游會讓使用者以為裝到的是上游版。"""
+    for rel in sorted(_NAME_MANIFESTS):
+        raw = (ROOT / rel).read_text(encoding="utf-8")
+        assert "shyuan" not in raw, (
+            f"{rel} 仍帶有上游署名或 URL；LICENSE 以外的地方都該改指 {_FORK_OWNER}")
+
+
+def test_every_ownership_field_names_the_fork():
+    claude = _load(".claude-plugin/plugin.json")
+    assert claude["author"]["name"] == _FORK_OWNER
+    assert claude["repository"] == _FORK_URL
+
+    codex = _load(".codex-plugin/plugin.json")
+    assert codex["author"] == _FORK_OWNER, ".codex-plugin 的 author 是字串不是物件"
+    assert codex["repository"] == _FORK_URL
+
+    assert _load(".cursor-plugin/plugin.json")["author"]["name"] == _FORK_OWNER
+    assert _load("plugin.json")["author"]["name"] == _FORK_OWNER
+    assert _load("package.json")["repository"] == _FORK_URL
+
+    kimi = _load(".kimi-plugin/plugin.json")
+    assert kimi["author"]["name"] == _FORK_OWNER
+    assert kimi["homepage"] == _FORK_URL
+    assert kimi["interface"]["developerName"] == _FORK_OWNER
+    assert kimi["interface"]["websiteURL"] == _FORK_URL
+
+
+def test_license_keeps_the_upstream_copyright_and_adds_the_fork():
+    text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    assert "Copyright (c) 2026 shyuan" in text, (
+        "MIT 要求原始著作權聲明必須隨散佈保留，不可刪除")
+    assert f"Copyright (c) 2026 {_FORK_OWNER}" in text, (
+        "fork 的修改部分也要有自己的著作權行")
